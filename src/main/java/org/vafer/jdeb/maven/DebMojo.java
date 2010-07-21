@@ -79,6 +79,12 @@ public class DebMojo extends AbstractPluginMojo {
      * @parameter expression="${changesIn}"
      */
     private File changesIn = null;
+    
+    /**
+     * Explicitly define the name of the changes file to write.
+     * 
+     * @parameter expression="${changesName}"
+     */
     private String changesName;
 
     /**
@@ -333,6 +339,8 @@ public class DebMojo extends AbstractPluginMojo {
         };
         try {
             DebMaker debMaker = new DebMaker(infoConsole, deb, controlDir, dataProducers, resolver);
+            debMaker.setChangesIn(changesIn);
+            debMaker.setChangesOut(changesOut);
             debMaker.makeDeb();
             getLog().info("Attaching created debian archive " + deb);
             projectHelper.attachArtifact(getProject(), type, classifier, deb);
